@@ -3,6 +3,9 @@
     <style>
       table {
         border: 1px solid black;
+        height: 100px;
+        width: 500px;
+        background-color: beige;
       }
 
       td {
@@ -11,13 +14,6 @@
       }
     </style>
     <script>
-      const createCellElement = (content) => {
-        const cellElement = document.createElement("td");
-        cellElement.innerText = content;
-
-        return cellElement;
-      };
-
       const createTableElement = () => document.createElement("table");
 
       const createTableHead = () => {
@@ -39,13 +35,20 @@
         return table;
       };
 
-      const displayFields = (fields) => {
-        const tableHead = document.querySelector(".error table thead th");
-        const fieldElements = fields.map((field) => createCellElement(field));
+      const createCellElement = (content) => {
+        const cellElement = document.createElement("td");
+        cellElement.innerText = content;
 
-        fieldElements.map((fieldElement) =>
-          tableHead.appendChild(fieldElement)
-        );
+        return cellElement;
+      };
+
+      const createFieldElements = (fields) =>
+        fields.map((field) => createCellElement(field));
+
+      const displayFields = (fieldElements) => {
+        const th = document.querySelector(".error table thead th");
+
+        fieldElements.forEach((fieldElement) => th.appendChild(fieldElement));
       };
 
       displayRecord = (cells) => {
@@ -61,8 +64,11 @@
       };
 
       const createTable = () => {
-        const table = createEmptyTable();
-        displayEmptyTable(table);
+        const emptyTable = createEmptyTable();
+        displayEmptyTable(emptyTable);
+
+        const fieldElements = createFieldElements(["name", "age"]);
+        displayFields(fieldElements);
       };
 
       window.onload = createTable;
