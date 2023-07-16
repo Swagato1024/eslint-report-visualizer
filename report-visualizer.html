@@ -13,6 +13,40 @@
       }
     </style>
     <script>
+      const format = () => {
+        const rows = [
+          ["swagato", 21, "WB"],
+          ["milan", -18, "WB"],
+          ["gourab", 123, "WB"],
+          ["qasim", 21, "UP"],
+          ["prem", 29, "AP"],
+        ];
+
+        const fieldNames = ["name", "age", "state"];
+
+        return { fieldNames, rows };
+      };
+
+      const getData = () => {
+        return [
+          {
+            name: "swagato",
+            age: 21,
+            state: "WB",
+          },
+          {
+            name: "swagato",
+            age: 21,
+            state: "WB",
+          },
+          {
+            name: "swagato",
+            age: 21,
+            state: "WB",
+          },
+        ];
+      };
+
       //crete element functionlaity
 
       const createTableElement = () => document.createElement("table");
@@ -105,24 +139,27 @@
         displayRecords(records);
       };
 
-      const main = () => {
-        const rows = [
-          ["swagato", 21, "WB"],
-          ["milan", -18, "WB"],
-          ["gourab", 123, "WB"],
-          ["qasim", 21, "UP"],
-          ["prem", 29, "AP"],
-        ];
+      const fetchData = (cb) => {
+        const data = getData();
+        const loader = document.querySelector(".loader");
+        loader.innerText = "Loading...";
 
-        const fieldNames = ["name", "age", "state"];
-
-        createTable({ fieldNames, rows });
+        setTimeout(() => {
+          loader.innerText = "";
+          cb(data);
+        }, 1000);
       };
 
-      window.onload = main;
+      window.onload = () => {
+        fetchData(() => {
+          const bioData = format(getData());
+          createTable(bioData);
+        });
+      };
     </script>
   </head>
   <body>
+    <div class="loader"></div>
     <div class="error"></div>
   </body>
 </html>
