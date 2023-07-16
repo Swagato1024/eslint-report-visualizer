@@ -18,7 +18,8 @@
         return cellElement;
       };
 
-      const createTabelElement = () => document.createElement("table");
+      const createTableElement = () => document.createElement("table");
+
       const createTableHead = () => {
         const tHead = document.createElement("thead");
         const fieldElement = document.createElement("th");
@@ -27,6 +28,17 @@
         return tHead;
       };
 
+      const createTableBody = () => document.createElement("tbody");
+
+      const createTableStructure = () => {
+        const table = createTableElement();
+        const tHead = createTableHead();
+        const tBody = createTableBody();
+
+        [tHead, tBody].forEach((component) => table.appendChild(component));
+        return table;
+      };
+      
       const displayFields = (fields) => {
         const tableHead = document.querySelector(".error table thead th");
         const fieldElements = fields.map((field) => createCellElement(field));
@@ -43,23 +55,20 @@
         cellElements.map((cellElement) => tableBody.appendChild(cellElement));
       };
 
-      const displayTable = () => {
-        const table = createTabelElement();
-        const tableHead = document.createElement("thead");
-        const head = document.createElement("th");
+      const displayTableHead = (table) => {
         const tableContainer = document.querySelector(".error");
-
-        tableHead.appendChild(head);
-        table.appendChild(tableHead);
-
-        tableContainer.appendChild(tableHead);
-
-        document.querySelector(".error").appendChild(table);
-        displayFields(["rule", "count"]);
-        displayRecord(["semi", 23]);
+        tableContainer.appendChild(table);
       };
 
-      window.onload = displayTable;
+      const createTable = () => {
+        createTableStructure();
+        const table = createTableElement();
+        const tableHead = createTableHead();
+
+        displayTableHead(table);
+      };
+
+      window.onload = createTable;
     </script>
   </head>
   <body>
