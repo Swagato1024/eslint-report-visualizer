@@ -3,13 +3,13 @@
     <style>
       table {
         border: 1px solid black;
-        height: 100px;
         background-color: beige;
       }
 
+      th,
       td {
-        width: 100px;
-        border: 1px solid blue;
+        padding: 5px 10px;
+        border: 1px dotted blue;
       }
     </style>
     <script>
@@ -19,7 +19,7 @@
 
       const createTableHead = () => {
         const tHead = document.createElement("thead");
-        const fieldElement = document.createElement("th");
+        const fieldElement = document.createElement("tr");
 
         tHead.appendChild(fieldElement);
         return tHead;
@@ -36,6 +36,13 @@
         return table;
       };
 
+      const createTableHeaderCell = (content) => {
+        const cellElement = document.createElement("th");
+        cellElement.innerText = content;
+
+        return cellElement;
+      };
+
       const createCellElement = (content) => {
         const cellElement = document.createElement("td");
         cellElement.innerText = content;
@@ -43,21 +50,34 @@
         return cellElement;
       };
 
-      const createFieldElements = (fields) =>
-        fields.map((field) => createCellElement(field));
+      const createFieldElements = (fields) => fields.map(createTableHeaderCell);
+
+      const createRowElement = (records) => {
+        const rowElement = document.createElement("tr");
+        const cellElements = records.map(createCellElement);
+
+        cellElements.forEach((cellElement) =>
+          rowElement.appendChild(cellElement)
+        );
+
+        return rowElement;
+      };
+
+      const createRowElements = (records) => {
+        return createRowElement(records);
+      };
+
+      //display functionalities
 
       const displayFields = (fieldElements) => {
-        const th = document.querySelector(".error table thead th");
+        const th = document.querySelector(".error table thead tr");
 
         fieldElements.forEach((fieldElement) => th.appendChild(fieldElement));
       };
 
-      //display functionalities
-      displayRecord = (cells) => {
-        const tableBody = document.querySelector(".error table");
-        const cellElements = cells.map((cell) => createCellElement(cell));
-
-        cellElements.map((cellElement) => tableBody.appendChild(cellElement));
+      displayRecord = (record) => {
+        const tableBody = document.querySelector(".error table tbody");
+        tableBody.appendChild(record);
       };
 
       const displayEmptyTable = (table) => {
@@ -74,8 +94,8 @@
         const fieldElements = createFieldElements(["name", "age", "state"]);
         displayFields(fieldElements);
 
-
-
+        const records = createRowElements(["swagato", 23, "WB"]);
+        displayRecord(records);
       };
 
       window.onload = createTable;
