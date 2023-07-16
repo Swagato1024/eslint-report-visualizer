@@ -11,18 +11,25 @@
       }
     </style>
     <script>
-      const createCellElement = (elementName, content) => {
-        const element = document.createElement(elementName);
-        element.innerText = content;
+      const createCellElement = (content) => {
+        const cellElement = document.createElement("td");
+        cellElement.innerText = content;
 
-        return element;
+        return cellElement;
       };
 
-      const displayFields = (...fields) => {
-        const tableHead = document.querySelector(".error table th");
-        const fieldElements = fields.map((field) =>
-          createCellElement("td", field)
-        );
+      const createTabelElement = () => document.createElement("table");
+      const createTableHead = () => {
+        const tHead = document.createElement("thead");
+        const fieldElement = document.createElement("th");
+
+        tHead.appendChild(fieldElement);
+        return tHead;
+      };
+
+      const displayFields = (fields) => {
+        const tableHead = document.querySelector(".error table thead th");
+        const fieldElements = fields.map((field) => createCellElement(field));
 
         fieldElements.map((fieldElement) =>
           tableHead.appendChild(fieldElement)
@@ -30,17 +37,25 @@
       };
 
       displayRecord = (cells) => {
-        const cellElement = cells.map((cell) => createCellElement("td", cell));
+        const tableBody = document.querySelector(".error table");
+        const cellElements = cells.map((cell) => createCellElement(cell));
+
+        cellElements.map((cellElement) => tableBody.appendChild(cellElement));
       };
 
       const displayTable = () => {
-        const table = document.createElement("table");
+        const table = createTabelElement();
+        const tableHead = document.createElement("thead");
         const head = document.createElement("th");
         const tableContainer = document.querySelector(".error");
 
-        table.appendChild(head);
-        tableContainer.appendChild(table);
-        displayFields("rule", "count");
+        tableHead.appendChild(head);
+        table.appendChild(tableHead);
+
+        tableContainer.appendChild(tableHead);
+
+        document.querySelector(".error").appendChild(table);
+        displayFields(["rule", "count"]);
         displayRecord(["semi", 23]);
       };
 
