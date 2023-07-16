@@ -4,7 +4,6 @@
       table {
         border: 1px solid black;
         height: 100px;
-        width: 500px;
         background-color: beige;
       }
 
@@ -14,6 +13,8 @@
       }
     </style>
     <script>
+      //crete element functionlaity
+
       const createTableElement = () => document.createElement("table");
 
       const createTableHead = () => {
@@ -51,6 +52,7 @@
         fieldElements.forEach((fieldElement) => th.appendChild(fieldElement));
       };
 
+      //display functionalities
       displayRecord = (cells) => {
         const tableBody = document.querySelector(".error table");
         const cellElements = cells.map((cell) => createCellElement(cell));
@@ -63,12 +65,17 @@
         tableContainer.appendChild(table);
       };
 
+      //driver functions
+
       const createTable = () => {
         const emptyTable = createEmptyTable();
         displayEmptyTable(emptyTable);
 
-        const fieldElements = createFieldElements(["name", "age"]);
+        const fieldElements = createFieldElements(["name", "age", "state"]);
         displayFields(fieldElements);
+
+
+
       };
 
       window.onload = createTable;
