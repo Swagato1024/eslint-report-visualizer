@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <style>
+      table {
+        border: 1px solid black;
+      }
+
+      td {
+        width: 100px;
+        border: 1px solid blue;
+      }
+    </style>
+    <script>
+      const createCellElement = (elementName, content) => {
+        const element = document.createElement(elementName);
+        element.innerText = content;
+
+        return element;
+      };
+
+      const displayFields = (...fields) => {
+        const tableHead = document.querySelector(".error table th");
+        const fieldElements = fields.map((field) =>
+          createCellElement("td", field)
+        );
+
+        fieldElements.map((fieldElement) =>
+          tableHead.appendChild(fieldElement)
+        );
+      };
+
+      displayRecord = (cells) => {
+        const cellElement = cells.map((cell) => createCellElement("td", cell));
+      };
+
+      const displayTable = () => {
+        const table = document.createElement("table");
+        const head = document.createElement("th");
+        const tableContainer = document.querySelector(".error");
+
+        table.appendChild(head);
+        tableContainer.appendChild(table);
+        displayFields("rule", "count");
+        displayRecord(["semi", 23]);
+      };
+
+      window.onload = displayTable;
+    </script>
+  </head>
+  <body>
+    <div class="error"></div>
+  </body>
+</html>
