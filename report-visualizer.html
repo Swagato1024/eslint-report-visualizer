@@ -32,40 +32,38 @@
         const tHead = createTableHead();
         const tBody = createTableBody();
 
-        [tHead, tBody].forEach((component) => table.appendChild(component));
+        table.appendChild(tHead);
+        table.appendChild(tBody);
+
         return table;
       };
 
-      const createTableHeaderCell = (content) => {
+      const createCellForTableField = (content) => {
         const cellElement = document.createElement("th");
         cellElement.innerText = content;
 
         return cellElement;
       };
 
-      const createCellElement = (content) => {
+      const createCellForTableRecord = (content) => {
         const cellElement = document.createElement("td");
         cellElement.innerText = content;
 
         return cellElement;
       };
 
-      const createFieldElements = (fields) => fields.map(createTableHeaderCell);
+      const createFields = (fields) => fields.map(createCellForTableField);
 
-      const createRowElement = (records) => {
-        const rowElement = document.createElement("tr");
-        const cellElements = records.map(createCellElement);
+      const createRecord = (items) => {
+        const row = document.createElement("tr");
+        const cells = items.map(createCellForTableRecord);
 
-        cellElements.forEach((cellElement) =>
-          rowElement.appendChild(cellElement)
-        );
+        cells.forEach((cell) => row.appendChild(cell));
 
-        return rowElement;
+        return row;
       };
 
-      const createRowElements = (records) => {
-        return createRowElement(records);
-      };
+      const createRecords = (items) => items.map(createRecord);
 
       //display functionalities
 
@@ -77,8 +75,12 @@
 
       displayRecord = (record) => {
         const tableBody = document.querySelector(".error table tbody");
+
         tableBody.appendChild(record);
       };
+
+      const displayRecords = (records) =>
+        records.forEach((record) => displayRecord(record));
 
       const displayEmptyTable = (table) => {
         const tableContainer = document.querySelector(".error");
@@ -87,15 +89,25 @@
 
       //driver functions
 
+      const populateTable = () => {};
+
       const createTable = () => {
         const emptyTable = createEmptyTable();
         displayEmptyTable(emptyTable);
-
-        const fieldElements = createFieldElements(["name", "age", "state"]);
+        
+        const fieldElements = createFields(["name", "age", "state"]);
         displayFields(fieldElements);
 
-        const records = createRowElements(["swagato", 23, "WB"]);
-        displayRecord(records);
+        const rows = [
+          ["swagato", 21, "WB"],
+          ["milan", -18, "WB"],
+          ["gourab", 123, "WB"],
+          ["qasim", 21, "UP"],
+          ["prem", 22, "AP"],
+        ];
+
+        const records = createRecords(rows); //improve
+        displayRecords(records);
       };
 
       window.onload = createTable;
