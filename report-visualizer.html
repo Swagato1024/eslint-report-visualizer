@@ -30,7 +30,7 @@
 
       const createTableBody = () => document.createElement("tbody");
 
-      const createTableStructure = () => {
+      const createEmptyTable = () => {
         const table = createTableElement();
         const tHead = createTableHead();
         const tBody = createTableBody();
@@ -38,7 +38,7 @@
         [tHead, tBody].forEach((component) => table.appendChild(component));
         return table;
       };
-      
+
       const displayFields = (fields) => {
         const tableHead = document.querySelector(".error table thead th");
         const fieldElements = fields.map((field) => createCellElement(field));
@@ -55,17 +55,14 @@
         cellElements.map((cellElement) => tableBody.appendChild(cellElement));
       };
 
-      const displayTableHead = (table) => {
+      const displayEmptyTable = (table) => {
         const tableContainer = document.querySelector(".error");
         tableContainer.appendChild(table);
       };
 
       const createTable = () => {
-        createTableStructure();
-        const table = createTableElement();
-        const tableHead = createTableHead();
-
-        displayTableHead(table);
+        const table = createEmptyTable();
+        displayEmptyTable(table);
       };
 
       window.onload = createTable;
