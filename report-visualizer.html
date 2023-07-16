@@ -54,6 +54,10 @@
 
       const createFields = (fields) => fields.map(createCellForTableField);
 
+      // [
+      //  {name: "swagato", age: 20 },
+      //  { name: "riya", age: 20 }
+      // ]
       const createRecord = (items) => {
         const row = document.createElement("tr");
         const cells = items.map(createCellForTableRecord);
@@ -75,6 +79,7 @@
 
       displayRecord = (record) => {
         const tableBody = document.querySelector(".error table tbody");
+        console.log("Hii", tableBody);
 
         tableBody.appendChild(record);
       };
@@ -89,28 +94,32 @@
 
       //driver functions
 
-      const populateTable = () => {};
-
-      const createTable = () => {
+      const createTable = ({ fieldNames, rows }) => {
         const emptyTable = createEmptyTable();
         displayEmptyTable(emptyTable);
-        
-        const fieldElements = createFields(["name", "age", "state"]);
-        displayFields(fieldElements);
 
-        const rows = [
-          ["swagato", 21, "WB"],
-          ["milan", -18, "WB"],
-          ["gourab", 123, "WB"],
-          ["qasim", 21, "UP"],
-          ["prem", 22, "AP"],
-        ];
+        const fields = createFields(fieldNames);
+        displayFields(fields);
 
         const records = createRecords(rows); //improve
         displayRecords(records);
       };
 
-      window.onload = createTable;
+      const main = () => {
+        const rows = [
+          ["swagato", 21, "WB"],
+          ["milan", -18, "WB"],
+          ["gourab", 123, "WB"],
+          ["qasim", 21, "UP"],
+          ["prem", 29, "AP"],
+        ];
+
+        const fieldNames = ["name", "age", "state"];
+
+        createTable({ fieldNames, rows });
+      };
+
+      window.onload = main;
     </script>
   </head>
   <body>
