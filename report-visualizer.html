@@ -134,22 +134,7 @@
 
       //display functionalities
 
-      const displayFields = (fieldElements) => {
-        const th = document.querySelector(".error > table > thead > tr"); //improve by adding class
-
-        fieldElements.forEach((fieldElement) => th.appendChild(fieldElement));
-      };
-
-      const displayRecord = (record) => {
-        const tableBody = document.querySelector(".error table tbody");
-
-        tableBody.appendChild(record);
-      };
-
-      const displayRecords = (records) =>
-        records.forEach((record) => displayRecord(record));
-
-      const displayEmptyTable = (table) => {
+      const displayTable = (table) => {
         const tableContainer = document.querySelector(".error");
         tableContainer.appendChild(table);
       };
@@ -158,47 +143,23 @@
 
       const createTable = ({ fieldNames, rows }) => {
         const table = createEmptyTable();
-        displayEmptyTable(table);
-
         const fields = createFields(fieldNames);
-        displayFields(fields);
 
         const records = createRecords(rows); //improve
-        displayRecords(records);
+
+        table.querySelector("thead tr").append(...fields);
+        table.querySelector("tbody").append(...records);
 
         return table;
       };
 
-      const fetchData = (cb) => {
-        const loader = document.querySelector(".loader");
-        loader.innerText = "Loading...";
-
-        setTimeout(() => {
-          const tableInfo = getTableData();
-          loader.innerText = "";
-          cb(tableInfo);
-        }, 1000);
-      };
-
-      const createTableFromList = () => {
-        const tableInfo = getTableData();
-        createTable(tableInfo);
-      };
-
-      const createTableFromJson = () => {
-        const tableInfo = getJson();
-        const tableData = formatter(tableInfo);
-        createTable(tableData);
-      };
-
-      const createTableAsync = () => {
-        fetchData(createTable);
-      };
-
       window.onload = () => {
         // createTableFromList();
-        // createTableAsync();
-        createTableFromJson();
+        const tableInfo = getTableData();
+        const table = createTable(tableInfo);
+        displayTable(table);
+
+        
       };
     </script>
   </head>
