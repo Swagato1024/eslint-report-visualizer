@@ -17,8 +17,13 @@
       }
     </style>
     <script>
-      const formatter = (items) => {
-        const fieldNames = Object.keys(items[0]);
+      const generateFieldNames = (items) => {
+        //on progress
+        return Object.keys(items[0]);
+      };
+
+      const format = (items) => {
+        const fieldNames = generateFieldNames(items);
 
         const rows = items.map((item) => {
           return fieldNames.map((fieldName) =>
@@ -36,6 +41,7 @@
           ["milan", 18, "WB"],
           ["gourab", 21, "WB"],
           ["qasim", 21, "UP"],
+          ["bittu", 45, "Bihar"],
         ];
 
         return { fieldNames, rows };
@@ -55,15 +61,15 @@
             endColumn: 19,
           },
           {
-            ruleId: "id-length",
+            nodeType: "Identifier",
             severity: 1,
-            message: "Identifier name 'p' is too short (< 2).",
             line: 4,
             column: 9,
-            nodeType: "Identifier",
+            message: "Identifier name 'p' is too short (< 2).",
             messageId: "tooShort",
             endLine: 4,
             endColumn: 10,
+            ruleId: "id-length",
           },
           {
             ruleId: "semi",
@@ -77,8 +83,7 @@
         ];
       };
 
-      //crete element functionlaity
-
+      //crete element functionlaities
       const createTableElement = () => document.createElement("table");
 
       const createTableHead = () => {
@@ -96,9 +101,7 @@
         const tHead = createTableHead();
         const tBody = createTableBody();
 
-        table.appendChild(tHead);
-        table.appendChild(tBody);
-
+        table.append(tHead, tBody);
         return table;
       };
 
@@ -118,33 +121,29 @@
 
       const createFields = (fields) => fields.map(createCellForTableField);
 
-      //  ["swagato", 20 ],
-      //  ["raj", 20 ]
-
+      //  ["swagato", 20 ]
+      // <tr>
+      //   <td> Swagato</td>
+      //   <td> 20</td>
+      // </tr>
       const createRecord = (items) => {
         const row = document.createElement("tr");
         const cells = items.map(createCellForTableRecord);
 
-        cells.forEach((cell) => row.appendChild(cell));
-
+        row.append(...cells);
         return row;
       };
 
-      const createRecords = (items) => items.map(createRecord);
-
-      //display functionalities
+      const createRecords = (entries) => entries.map(createRecord);
 
       const displayTable = (table) => {
-        const tableContainer = document.querySelector(".error");
+        const tableContainer = document.querySelector(".table-container");
         tableContainer.appendChild(table);
       };
-
-      //driver functions
 
       const createTable = ({ fieldNames, rows }) => {
         const table = createEmptyTable();
         const fields = createFields(fieldNames);
-
         const records = createRecords(rows); //improve
 
         table.querySelector("thead tr").append(...fields);
@@ -154,17 +153,21 @@
       };
 
       window.onload = () => {
-        // createTableFromList();
-        const tableInfo = getTableData();
-        const table = createTable(tableInfo);
-        displayTable(table);
+        //create table from list of data
+        // const tableInfo = getTableData();
+        // const table = createTable(tableInfo);
 
-        
+        //create table from json
+        const tableData = getJson();
+        const tableInfo = format(tableData);
+        const table = createTable(tableInfo);
+        console.log(table);
+        displayTable(table);
       };
     </script>
   </head>
   <body>
     <div class="loader"></div>
-    <div class="error"></div>
+    <div class="table-container"></div>
   </body>
 </html>
